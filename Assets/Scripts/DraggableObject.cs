@@ -5,10 +5,10 @@ using UnityEngine;
 public class DraggableObject : MonoBehaviour
 {
     [SerializeField]
-    private float requiredHoldTime=0.1f;
+    private float requiredHoldTime = 0.1f;
 
     float dragTimer;
-    public int offset=10;
+    public int offset = 10;
     bool dragTry;
 
     Vector3 mousePos;
@@ -17,9 +17,14 @@ public class DraggableObject : MonoBehaviour
     [SerializeField]
     bool correctDirection;
     bool duringCoroutine;
+    bool isGreen;
+    
+    [SerializeField]
+    Material green;
+    [SerializeField]
+    Material red;
 
     public Transform endSnapper;
-
     int count = 0;
     private void Start()
     {
@@ -30,7 +35,7 @@ public class DraggableObject : MonoBehaviour
     {
         dragTry = true;
 
-        mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, offset) ;
+        mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, offset);
         initPos = Camera.main.ScreenToWorldPoint(mousePos) - transform.position;
     }
 
@@ -40,8 +45,8 @@ public class DraggableObject : MonoBehaviour
         {
             mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, offset));
             //transform.position = Vector3.Lerp(transform.position, mousePos-initPos, 2f);
-            transform.position = mousePos-initPos;
-            
+            transform.position = mousePos - initPos;
+
         }
     }
 
@@ -51,9 +56,25 @@ public class DraggableObject : MonoBehaviour
         {
             dragTimer -= Time.deltaTime;
             count++;
-            
-            if(count%40==0)
-            endSnapper.GetComponent<Renderer>().enabled = !endSnapper.GetComponent<Renderer>().enabled;
+
+            if (count % 40 == 0)
+            {
+                if (isGreen)
+                {
+                    isGreen = false;
+                    foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
+                        m.color = red.color;
+                    
+                    
+
+                }
+                else
+                {
+                    isGreen = true;
+                    foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
+                        m.color = green.color;
+                }
+            }
         }
 
     }
@@ -78,6 +99,12 @@ public class DraggableObject : MonoBehaviour
                 }
             }
         }
+        if (endSnapper.gameObject.activeSelf)
+        {
+            isGreen = true;
+            foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
+            m.color = green.color;
+        }
         dragTry = false;
         count = 0;
         dragTimer = requiredHoldTime;
@@ -85,7 +112,7 @@ public class DraggableObject : MonoBehaviour
     IEnumerator Rotater()
     {
         duringCoroutine = true;
-        for(int i=0;i<36;i++)
+        for (int i = 0; i < 36; i++)
         {
             transform.Rotate(0, 5, 0);
             yield return new WaitForSeconds(.01f);

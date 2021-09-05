@@ -134,13 +134,14 @@ public class CameraController : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out hit, range))
         {
 
-            if (hit.transform.CompareTag("Enemy"))
+            if (hit.transform.CompareTag("Villian"))
             {
                 Debug.Log("Shot");
-                
 
-                //GameObject g = Instantiate(bulletProjectile, transform.position, Quaternion.identity);
-                //g.transform.LookAt(hit.point);
+                GameObject g = Instantiate(bulletProjectile, GameManager.instance.Muzzle().position, Quaternion.identity);
+                g.transform.LookAt(hit.point);
+                hit.transform.gameObject.GetComponent<Animator>().SetTrigger("Die");
+                GameManager.instance.GunShot();
             }
 
         }

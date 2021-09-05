@@ -76,6 +76,14 @@ public class GameManager : MonoBehaviour
         
         crossHair.SetActive(false);
     }
+    public void GunShot()
+    {
+        mainGun.GetComponent<Animator>().SetTrigger("Shot");
+    }
 
+    public Transform Muzzle()
+    {
+        return mainGun.transform.GetChild(0);
+    }
     
 }
