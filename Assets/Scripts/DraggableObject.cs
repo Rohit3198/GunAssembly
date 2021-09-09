@@ -57,16 +57,13 @@ public class DraggableObject : MonoBehaviour
             dragTimer -= Time.deltaTime;
             count++;
 
-            if (count % 40 == 0)
+            if (count %20 == 0)
             {
                 if (isGreen)
                 {
                     isGreen = false;
                     foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
                         m.color = red.color;
-                    
-                    
-
                 }
                 else
                 {
