@@ -23,6 +23,8 @@ public class DraggableObject : MonoBehaviour
     Material green;
     [SerializeField]
     Material red;
+    [SerializeField]
+    Material correctGreen;
 
     public Transform endSnapper;
     int count = 0;
@@ -57,19 +59,37 @@ public class DraggableObject : MonoBehaviour
             dragTimer -= Time.deltaTime;
             count++;
 
-            if (count %20 == 0)
+            if (count %40 == 0)
             {
-                if (isGreen)
+                if (Vector3.Distance(transform.position, endSnapper.position) > .5f && correctDirection)
                 {
-                    isGreen = false;
-                    foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
-                        m.color = red.color;
+                    if (isGreen)
+                    {
+                        isGreen = false;
+                        foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
+                            m.color = red.color;
+                    }
+                    else
+                    {
+                        isGreen = true;
+                        foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
+                            m.color = green.color;
+                    }
                 }
                 else
                 {
-                    isGreen = true;
-                    foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
-                        m.color = green.color;
+                    if (isGreen)
+                    {
+                        isGreen = false;
+                        foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
+                            m.color = correctGreen.color;
+                    }
+                    else
+                    {
+                        isGreen = true;
+                        foreach (Material m in endSnapper.GetComponent<Renderer>().materials)
+                            m.color = green.color;
+                    }
                 }
             }
         }
