@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
 
     public float range = 1200f;
 
-
+    bool isMove;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,8 +45,12 @@ public class CameraController : MonoBehaviour
             flag = true;
             StartFps();
         }
-        SetFieldOfView();
-        FpsControl();
+
+        if (!isMove)
+        {
+            SetFieldOfView();
+            FpsControl();
+        }
     }
 
     void SetFieldOfView()
@@ -142,6 +146,12 @@ public class CameraController : MonoBehaviour
                 g.transform.LookAt(hit.point);
                 hit.transform.gameObject.GetComponent<Animator>().SetTrigger("Die");
                 GameManager.instance.GunShot();
+                isMove = true;
+                Camera.main.transform.parent = g.transform;
+                Camera.main.transform.position = g.transform.GetChild(0).position;
+                
+                Camera.main.transform.rotation = g.transform.GetChild(0).rotation;
+                
             }
 
         }
