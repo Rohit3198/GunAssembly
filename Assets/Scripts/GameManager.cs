@@ -24,10 +24,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject crossHair = null;
 
+    Vector3 camEndPos;
+    Vector3 camStartPos;
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
+        camEndPos = new Vector3(0,5, 0);
+        camStartPos = Camera.main.transform.position;
     }
 
     // Update is called once per frame
@@ -38,7 +42,8 @@ public class GameManager : MonoBehaviour
         {
             mainGun.transform.position = Vector3.Lerp(mainGun.transform.position, gunEndPos.position, .05f);
             mainGun.transform.rotation = gunEndPos.transform.rotation;
-            
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,camEndPos,.05f);
+
         }
     }
 
@@ -50,6 +55,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Aim");
             parts.SetActive(false);
             mainGun.transform.parent = Camera.main.transform;
+            
             mainGun.SetActive(true);
             secondCamera.SetActive(false);
             flag = true;
