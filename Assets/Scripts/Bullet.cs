@@ -20,5 +20,6 @@ public class Bullet : MonoBehaviour
     {
         moveSpeed = 0;
         GetComponent<Renderer>().enabled = false;
+        Debug.Log(Camera.main.transform.rotation);
     }
 }

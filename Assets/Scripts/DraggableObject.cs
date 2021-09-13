@@ -59,7 +59,7 @@ public class DraggableObject : MonoBehaviour
             dragTimer -= Time.deltaTime;
             count++;
 
-            if (count %40 == 0)
+            if (count %20 == 0)
             {
                 if (Vector3.Distance(transform.position, endSnapper.position) > .5f && correctDirection)
                 {

@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject secondCamera=null;
     [SerializeField]
+    GameObject wanted=null;
+    [SerializeField]
     Transform gunEndPos=null;
     bool flag;
 
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         instance = this;
-        camEndPos = new Vector3(0,5, 0);
+        camEndPos = new Vector3(0,5,0);
         camStartPos = Camera.main.transform.position;
     }
 
@@ -43,7 +45,6 @@ public class GameManager : MonoBehaviour
             mainGun.transform.position = Vector3.Lerp(mainGun.transform.position, gunEndPos.position, .05f);
             mainGun.transform.rotation = gunEndPos.transform.rotation;
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,camEndPos,.05f);
-
         }
     }
 
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
             
             mainGun.SetActive(true);
             secondCamera.SetActive(false);
+            wanted.SetActive(false);
             flag = true;
             Invoke("DeFlag", .75f);
             
@@ -92,4 +94,17 @@ public class GameManager : MonoBehaviour
         return mainGun.transform.GetChild(0);
     }
     
+    //public void SetShotCam(GameObject g)
+    //{
+    //   Destroy(Camera.main.GetComponent<CameraController>());
+    //    Camera.main.transform.parent = g.transform;
+    //    Camera.main.transform.localPosition = g.transform.GetChild(0).localPosition;
+    //    Debug.Log(Camera.main.transform.rotation);
+    //    Debug.Log(g.transform.GetChild(0).rotation);
+    //    Camera.main.transform.rotation = g.transform.GetChild(0).rotation;
+    //    Debug.Log(Camera.main.transform.rotation);
+    //    Debug.Log(g.transform.GetChild(0).rotation);
+
+
+    //}    
 }

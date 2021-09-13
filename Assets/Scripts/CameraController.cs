@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -7,6 +8,7 @@ public class CameraController : MonoBehaviour
     public float posSmoothness;
 
     public ParticleSystem blood;
+    public ParticleSystem poof;
 
     public GameObject bulletProjectile;
 
@@ -141,22 +143,27 @@ public class CameraController : MonoBehaviour
             if (hit.transform.CompareTag("Villian"))
             {
                 Debug.Log("Shot");
-
+                
                 GameObject g = Instantiate(bulletProjectile, GameManager.instance.Muzzle().position, Quaternion.identity);
                 g.transform.LookAt(hit.point);
-                hit.transform.gameObject.GetComponent<Animator>().SetTrigger("Die");
+                
                 GameManager.instance.GunShot();
-                isMove = true;
-                Camera.main.transform.parent = g.transform;
-                Camera.main.transform.position = g.transform.GetChild(0).position;
-                
-                Camera.main.transform.rotation = g.transform.GetChild(0).rotation;
-                
+                StartCoroutine(SlowDeath(hit));
+                //GameManager.instance.SetShotCam(g); 
             }
 
         }
     }
+    
+   IEnumerator SlowDeath(RaycastHit hit)
 
+    {
+        yield return new WaitForSeconds(2f);
+        hit.transform.GetComponent<Animator>().SetTrigger("Die");
+        Instantiate(blood, hit.point, Quaternion.identity);
+        poof.gameObject.SetActive(false);
+    }
+        
 
 
 }
