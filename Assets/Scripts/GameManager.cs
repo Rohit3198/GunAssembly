@@ -18,7 +18,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject secondCamera=null;
     [SerializeField]
+    GameObject deathCam=null;
+    [SerializeField]
     GameObject wanted=null;
+    [SerializeField]
+    GameObject deadPanel=null;
     [SerializeField]
     Transform gunEndPos=null;
     bool flag;
@@ -74,10 +78,24 @@ public class GameManager : MonoBehaviour
         Camera.main.GetComponent<CameraController>().enabled = true;
     }
 
+    public void LookEnemy()
+    {
+        secondCamera.SetActive(false);
+        wanted.SetActive(false);
+        Invoke("DFlag", .75f);
+        flag = true;
+    }
+
+    void DFlag()
+    {
+        flag = false;
+        Camera.main.GetComponent<CameraController>().enabled = true;
+    }
     public void Aim()
     {
         
         crossHair.SetActive(true);
+        mainGun.GetComponent<Renderer>().enabled = false;
     }
     public void StopAim()
     {
@@ -93,7 +111,19 @@ public class GameManager : MonoBehaviour
     {
         return mainGun.transform.GetChild(0);
     }
-    
+    public void DeathCam()
+    {
+        Camera.main.gameObject.SetActive(false);
+        secondCamera.SetActive(false);
+        wanted.SetActive(false);
+        deathCam.SetActive(true);
+        Invoke("Dead", 0.5f);
+    }
+
+    void Dead()
+    {
+        deadPanel.SetActive(true);
+    }
     //public void SetShotCam(GameObject g)
     //{
     //   Destroy(Camera.main.GetComponent<CameraController>());

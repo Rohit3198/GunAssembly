@@ -18,8 +18,15 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject.tag=="Player")
+        {
+            Debug.Log("Hit");
+            GameManager.instance.DeathCam();
+            collision.gameObject.GetComponent<Animator>().SetTrigger("Die");
+            collision.gameObject.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+        }
         moveSpeed = 0;
         GetComponent<Renderer>().enabled = false;
-        Debug.Log(Camera.main.transform.rotation);
+        
     }
 }

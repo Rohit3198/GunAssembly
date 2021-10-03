@@ -84,7 +84,7 @@ public class CameraController : MonoBehaviour
                 firstPoint = Input.mousePosition;
                 xTemp = rotationX;
                 yTemp = rotationY;
-                _targetFieldOfView = 40;
+                _targetFieldOfView = 40; //40,10
                 GameManager.instance.Aim();
             }
             if (Input.GetMouseButton(0))

@@ -101,8 +101,8 @@ public class DraggableObject : MonoBehaviour
         {
             if (dragTimer > 0)
             {
-                StartCoroutine(Rotater());
-                correctDirection = !correctDirection;
+                //StartCoroutine(Rotater());
+                //correctDirection = !correctDirection;
             }
             else
             {
